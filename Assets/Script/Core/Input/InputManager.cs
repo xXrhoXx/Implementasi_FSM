@@ -14,6 +14,9 @@ public class InputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        var stateUI = FindAnyObjectByType<StateUI>();
+        stateUI.SetText(characterMovement.GetStateName());
+
         WASD_Input();
         LeftMouse();
         RightMouse();

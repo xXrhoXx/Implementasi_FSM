@@ -42,9 +42,6 @@ public class CharacterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var stateUI = FindAnyObjectByType<StateUI>();
-        stateUI.SetText(_currentState.Name);
-
         FlipSprite();
         CalculateVelocity();
         Gravity();
@@ -88,13 +85,6 @@ public class CharacterMovement : MonoBehaviour
         facingRight = !facingRight;
     }
 
-    internal void ChangeState(string stateName)
-    {
-        _currentState?.Exit(this);
-        _currentState = _stateFactory.GetState(stateName);
-        _currentState?.Enter(this);
-    }
-
     private void CalculateVelocity()
     {
         Vector2 currentPosition = new Vector2(transform.position.x, transform.position.y);
@@ -113,5 +103,17 @@ public class CharacterMovement : MonoBehaviour
         }
 
         dir.y += Physics.gravity.y * 0.02f * Time.deltaTime;
+    }
+
+    internal void ChangeState(string stateName)
+    {
+        _currentState?.Exit(this);
+        _currentState = _stateFactory.GetState(stateName);
+        _currentState?.Enter(this);
+    }
+
+    internal string GetStateName()
+    {
+        return _currentState?.Name;
     }
 }
